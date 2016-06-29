@@ -11,9 +11,6 @@ public class Connector {
 		
 		try {
 			sessao = HibernateUtil.getSession().openSession();
-			boolean connected = sessao.isConnected();
-			
-			if(connected)
 				System.out.println("Conectou");
 			
 		}finally {
