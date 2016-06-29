@@ -16,6 +16,7 @@ import org.junit.Test;
 
 import com.sistema.movimento.HibernateUtil;
 import com.sistema.movimento.produto.Produto;
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
 import antlr.collections.List;
 
@@ -57,7 +58,7 @@ public class ProdutoTest {
 		
 		Produto p1 = new Produto("lote2", "Regua", new Date(), 30, 2.5f);
 		Produto p2 = new Produto("fardo", "Papel", new Date(), 300, 1.5f);
-		Produto p3 = new Produto("edicao", "Livro", new Date(), 10, 30.0f);
+		Produto p3 = new Produto("edicao", "Livro", new Date(), 60, 30.0f);
 		Produto p4 = new Produto("caixa", "Caneta", new Date(), 90, 1.5f);
 		Produto p5 = new Produto("lote", "Caderno", new Date(), 50, 7.0f);
 		
@@ -71,9 +72,7 @@ public class ProdutoTest {
 	@Test
 	public void salvarProdutoTest(){
 		
-		String sql = "from Produto p where p.descricao like :descricao";
-		Query consulta = sessao.createQuery(sql);
-		consulta.setString("descricao", "%Re%");
+		Query consulta = pesquisar("Re");
 		Produto produtoPesquisa = (Produto) consulta.uniqueResult();
 		
 		assertEquals("lote2", produtoPesquisa.getUnidade());
@@ -82,7 +81,42 @@ public class ProdutoTest {
 	@Test
 	public void listarProdutosTest(){
 		Criteria lista = sessao.createCriteria(Produto.class);
-		List<Produto> produto = lista.list()();
+		java.util.List<Produto> produto = lista.list();
+		assertEquals(5, produto.size());
 	}
+	
+	@Test
+	public void excluirProdutoTest(){
+		Query consulta = pesquisar("Papel");
+		Produto produtoDeletar = (Produto) consulta.uniqueResult();
+		sessao.delete(produtoDeletar);
+		
+		produtoDeletar = (Produto) consulta.uniqueResult();
+		assertNull(produtoDeletar);
+		
+		
+	}
+	
+	@Test
+	public void alteracaoProdutoTest(){
+		
+		Query consulta = pesquisar("Livro");
+		Produto produtoAlterar = (Produto) consulta.uniqueResult();
+		produtoAlterar.setEstoque(100);
+		
+		sessao.update(produtoAlterar);
+		
+		produtoAlterar = (Produto) consulta.uniqueResult();
+		
+		assertEquals(100, produtoAlterar.getEstoque().intValue());
+	}
+
+	private Query pesquisar(String parametro) {
+		String sql = "from Produto p where p.descricao like :descricao";
+		Query consulta = sessao.createQuery(sql);
+		consulta.setString("descricao", "%"+parametro+"%");
+		return consulta;
+	}
+	
 	
 }
