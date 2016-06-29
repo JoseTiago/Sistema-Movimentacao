@@ -4,12 +4,18 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html">
 
+	<!-- 
+		Replace path to template, title, header and body
+		with actual data.
+	 -->
 	<ui:composition template="/templates/templates.xhtml">
-			<ui:define name="pageTitle">Pagina Inicial</ui:define>
-			<ui:define name="pageHeader"> Alvorada</ui:define>
+			<ui:define name="pageTitle">Title</ui:define>
+			<ui:define name="pageHeader">Header</ui:define>
 			<ui:define name="body">
-			<h:outputText value="corpo"/>
-				</ui:define>
+				<form jsfc="h:form" id="Form">
+				
+				</form>
+			</ui:define>
 	</ui:composition>
 
 </html>
