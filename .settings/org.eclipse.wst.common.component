@@ -2,6 +2,7 @@
     <wb-module deploy-name="Sistema Movimeto">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/JavaTest"/>
         <property name="context-root" value="Sistema_Movimeto"/>
         <property name="java-output-path" value="/Sistema Movimeto/build/classes"/>
     </wb-module>
